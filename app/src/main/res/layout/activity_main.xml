@@ -9,18 +9,14 @@
     <FrameLayout
         android:id="@+id/buttonFrame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp">
+        android:layout_height="wrap_content">
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/newsFrame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="308dp">
+        android:layout_below="@+id/buttonFrame">
     </FrameLayout>
 
 </RelativeLayout>

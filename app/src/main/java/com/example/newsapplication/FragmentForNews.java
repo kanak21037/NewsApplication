@@ -1,64 +1,74 @@
 package com.example.newsapplication;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FragmentForNews#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class FragmentForNews extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    public static TextView newsTitle;
+    public static TextView newsBody;
+    public static ImageView newsImage;
 
     public FragmentForNews() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentForNews.
-     */
-    // TODO: Rename and change types and number of parameters
     public static FragmentForNews newInstance(String param1, String param2) {
         FragmentForNews fragment = new FragmentForNews();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
+    }
+
+    private BroadcastReceiver updateTextViewReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String mTitle = intent.getStringExtra("title");
+            newsTitle.setText("Title : "+mTitle);
+
+            String mBody = intent.getStringExtra("body");
+            newsBody.setText("Body :"+mBody);
+        }
+    };
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //IntentFilter e=getId();
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(updateTextViewReceiver, new IntentFilter("ACTION_UPDATE_TEXT_VIEW"));
+    }
+
+    @Override
+    public void onStop() {
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(updateTextViewReceiver);
+        super.onStop();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
-    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_for_news, container, false);
+        View view= inflater.inflate(R.layout.fragment_for_news, container, false);
+
+        newsBody=(TextView) view.findViewById(R.id.bodyTextView);
+        newsTitle=(TextView) view.findViewById(R.id.titleTextView);
+
+        return view;
     }
 }
