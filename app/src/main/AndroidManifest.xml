@@ -13,15 +13,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NewsApplication">
+        <activity
+            android:name=".Activity2"
+            android:exported="false" />
 
-<!--        <receiver-->
-<!--            android:name=".MyReceiver"-->
-<!--            android:enabled="true"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="restartservice" />-->
-<!--            </intent-filter>-->
-<!--        </receiver>-->
+        <receiver
+            android:name=".RecieverToStart"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+
+                <!-- <action android:name="restartservice" /> -->
+                <action android:name="android.intent.action.BATTERY_OKAY" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTEDCONNECTED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".MyReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+
+                <!-- <action android:name="restartservice" /> -->
+                <action android:name="android.intent.action.BATTERY_LOW" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
